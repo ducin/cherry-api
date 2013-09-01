@@ -8,4 +8,4 @@ install:
   - pip install -r requirements.txt --use-mirrors
 before_script: ./run.sh &
 after_script: pkill -9 -f "run.sh"
-script: nosetests
+script: ./test.sh

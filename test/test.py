@@ -1,5 +1,7 @@
 from urllib2 import urlopen
+import json
 import unittest
+import server
 
 MIME_HTML = 'text/html;charset=utf-8'
 MIME_JSON = 'application/json'
@@ -22,4 +24,5 @@ class ExampleTest(unittest.TestCase):
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
         content = [line for line in u]
-        self.assertEqual(content[0], '[{"artist": "Canadian Guard Choir", "id": "1", "title": "Lumberjack Song"}, {"artist": "Eric Idle", "id": "2", "title": "Always Look On the Bright Side of Life"}, {"artist": "Monty Python", "id": "3", "title": "Spam Spam Spam"}]')
+        data = json.loads(content[0])
+        self.assertEqual(data, server.Songs.songs)
