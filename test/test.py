@@ -13,4 +13,4 @@ class ExampleTest(unittest.TestCase):
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_HTML])
         content = [line for line in u]
-        self.assertEqual(content, ['Hello world!'])
+        self.assertEqual(content, ['Hello world from CherryPy API.'])
