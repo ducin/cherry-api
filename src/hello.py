@@ -8,5 +8,8 @@ class HelloWorld(object):
 def run():
     cherrypy.quickstart(HelloWorld())
 
+def stop():
+    cherrypy.engine.stop()
+
 if __name__ == '__main__':
     run()
