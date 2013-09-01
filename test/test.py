@@ -15,14 +15,32 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(URL, u.geturl())
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_HTML])
-        content = [line for line in u]
-        self.assertEqual(content[0], 'Hello world from CherryPy API.')
+        content = [line for line in u][0]
+        self.assertEqual(content, 'Hello world from CherryPy API.')
+
+    def assertSongIsCorrect(self, song):
+        self.assert_(song.has_key('id'))
+        self.assert_(song.has_key('title'))
+        self.assert_(song.has_key('artist'))
 
     def test_list(self):
         u = urlopen(URL + '/api/songs')
         self.assertEqual(u.getcode(), 200)
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
-        content = [line for line in u]
-        data = json.loads(content[0])
+        content = [line for line in u][0]
+        data = json.loads(content)
         self.assertEqual(data, server.Songs.songs)
+        for song in data:
+            self.assertSongIsCorrect(song)
+
+    def test_show(self):
+        u = urlopen(URL + '/api/songs/1')
+        self.assertEqual(u.getcode(), 200)
+        meta = u.info()
+        self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
+        content = [line for line in u][0]
+        song = json.loads(content)
+        S = server.Songs()
+        self.assertEqual(song, S.getOneBy('1'))
+        self.assertSongIsCorrect(song)
