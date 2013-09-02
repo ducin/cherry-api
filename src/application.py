@@ -9,7 +9,7 @@ class Index(object):
 def run():
     cherrypy.tree.mount(Index())
     cherrypy.tree.mount(
-        Songs(), '/api/songs',
+        Songs(), '/songs',
         {'/':
             {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}
         }

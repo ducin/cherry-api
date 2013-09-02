@@ -24,7 +24,7 @@ class ExampleTest(unittest.TestCase):
         self.assert_(song.has_key('artist'))
 
     def test_list(self):
-        u = urlopen(URL + '/api/songs')
+        u = urlopen(URL + '/songs')
         self.assertEqual(u.getcode(), 200)
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
@@ -35,7 +35,7 @@ class ExampleTest(unittest.TestCase):
             self.assertSongIsCorrect(song)
 
     def test_show(self):
-        u = urlopen(URL + '/api/songs/1')
+        u = urlopen(URL + '/songs/1')
         self.assertEqual(u.getcode(), 200)
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
