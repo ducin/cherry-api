@@ -32,7 +32,7 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
         content = [line for line in u][0]
         data = json.loads(content)
-        self.assertEqual(data, server.Songs.songs)
+        self.assertEqual(data, Songs.songs)
         for song in data:
             self.assertSongIsCorrect(song)
 
