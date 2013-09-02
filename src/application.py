@@ -1,5 +1,5 @@
 import cherrypy
-from songs import Songs
+from outcomes import Outcomes
 
 class Index(object):
     def index(self):
@@ -9,7 +9,7 @@ class Index(object):
 def run():
     cherrypy.tree.mount(Index())
     cherrypy.tree.mount(
-        Songs(), '/songs',
+        Outcomes(), '/outcomes',
         {'/':
             {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}
         }
