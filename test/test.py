@@ -1,7 +1,7 @@
 from urllib2 import urlopen
 import json
 import unittest
-import server
+import application
 
 MIME_HTML = 'text/html;charset=utf-8'
 MIME_JSON = 'application/json'
