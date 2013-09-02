@@ -19,9 +19,9 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(content, 'Hello world from CherryPy API.')
 
     def assertSongIsCorrect(self, song):
-        self.assert_(song.has_key('id'))
-        self.assert_(song.has_key('title'))
-        self.assert_(song.has_key('artist'))
+        self.assert_('id' in song)
+        self.assert_('title' in song)
+        self.assert_('artist' in song)
 
     def test_list(self):
         u = urlopen(URL + '/api/songs')
