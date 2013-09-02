@@ -1,7 +1,9 @@
 from urllib2 import urlopen
 import json
 import unittest
+
 import application
+from songs import Songs
 
 MIME_HTML = 'text/html;charset=utf-8'
 MIME_JSON = 'application/json'
@@ -41,6 +43,6 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
         content = [line for line in u][0]
         song = json.loads(content)
-        S = server.Songs()
+        S = Songs()
         self.assertEqual(song, S.getOneBy('1'))
         self.assertSongIsCorrect(song)
