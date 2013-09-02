@@ -14,7 +14,7 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(u.getcode(), 200)
         self.assertEqual(URL, u.geturl())
         meta = u.info()
-        self.assertEqual(meta.getheaders('content-type'), [MIME_HTML])
+        self.assertEqual(meta.get('content-type'), [MIME_HTML])
         content = [line for line in u][0]
         self.assertEqual(content, 'Hello world from CherryPy API.')
 
@@ -27,7 +27,7 @@ class ExampleTest(unittest.TestCase):
         u = urlopen(URL + '/api/songs')
         self.assertEqual(u.getcode(), 200)
         meta = u.info()
-        self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
+        self.assertEqual(meta.get('content-type'), [MIME_JSON])
         content = [line for line in u][0]
         data = json.loads(content)
         self.assertEqual(data, server.Songs.songs)
@@ -38,7 +38,7 @@ class ExampleTest(unittest.TestCase):
         u = urlopen(URL + '/api/songs/1')
         self.assertEqual(u.getcode(), 200)
         meta = u.info()
-        self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
+        self.assertEqual(meta.get('content-type'), [MIME_JSON])
         content = [line for line in u][0]
         song = json.loads(content)
         S = server.Songs()
