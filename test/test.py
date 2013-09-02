@@ -15,7 +15,7 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(URL, u.geturl())
         meta = u.info()
         self.assertEqual(meta.get('content-type'), MIME_HTML)
-        content = [line for line in u][0]
+        content = [line for line in u][0].decode("utf-8")
         self.assertEqual(content, 'Hello world from CherryPy API.')
 
     def assertSongIsCorrect(self, song):
@@ -28,7 +28,7 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(u.getcode(), 200)
         meta = u.info()
         self.assertEqual(meta.get('content-type'), MIME_JSON)
-        content = [line for line in u][0]
+        content = [line for line in u][0].decode("utf-8")
         data = json.loads(content)
         self.assertEqual(data, server.Songs.songs)
         for song in data:
@@ -39,7 +39,7 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(u.getcode(), 200)
         meta = u.info()
         self.assertEqual(meta.get('content-type'), MIME_JSON)
-        content = [line for line in u][0]
+        content = [line for line in u][0].decode("utf-8")
         song = json.loads(content)
         S = server.Songs()
         self.assertEqual(song, S.getOneBy('1'))
