@@ -38,3 +38,16 @@ class Outcomes:
             return self.outcomes
         else:
             return self.getOneBy(id)
+
+    @cherrypy.tools.json_out()
+    def POST(self, category_id, created_at, created_by, amount, description):
+        id = max([el['id'] for el in self.outcomes]) + 1
+        self.outcomes.append({
+            'id': id,
+            'category_id': int(category_id),
+            'created_at': created_at,
+            'created_by': int(created_by),
+            'amount': float(amount),
+            'description': description
+        })
+        return id

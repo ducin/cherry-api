@@ -1,8 +1,8 @@
 from urllib2 import urlopen
+import urllib
 import json
 import unittest
 
-import application
 from outcomes import Outcomes
 
 MIME_HTML = 'text/html;charset=utf-8'
@@ -39,9 +39,8 @@ class ExampleTest(unittest.TestCase):
         self.assertEqual(u.getcode(), 200)
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
-        content = [line for line in u][0]
-        data = json.loads(content)
-        self.assertEqual(data, application.Outcomes.outcomes)
+        data = json.loads([line for line in u][0])
+        self.assertTrue(type(data) is list)
         for outcome in data:
             self.assertOutcomeIsCorrect(outcome)
 
@@ -55,3 +54,14 @@ class ExampleTest(unittest.TestCase):
         O = Outcomes()
         self.assertEqual(outcome, O.getOneBy('1'))
         self.assertOutcomeIsCorrect(outcome)
+
+    def test_add(self):
+        params = {
+            'category_id': 2,
+            'amount': 2.0,
+            'created_by': 2,
+            'created_at': '2013-09-02 00:00:00',
+            'description': 'dunno what'
+        }
+        params = urllib.urlencode(params)
+        f = urllib.urlopen(URL + '/outcomes', params)
