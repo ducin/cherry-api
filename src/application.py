@@ -9,11 +9,8 @@ class Index(object):
             {'label': 'outcomes', 'href': 'outcomes'},
             {'label': 'categories', 'href': 'categories'}
             ]
-        html = "<p>Hello world from CherryPy API.</p><ul>"
-        for el in options:
-            html += "<li><a href='" + el['href'] + "'>" + el['label'] + "</a></li>"
-        html += "</ul>"
-        return html
+        return "<p>Hello world from CherryPy API.</p>" + \
+            "<ul>" + ''.join(["<li><a href='" + el['href'] + "'>" + el['label'] + "</a></li>" for el in options]) + "</ul>"
     index.exposed = True
 
 def run():
