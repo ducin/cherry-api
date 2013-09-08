@@ -6,10 +6,8 @@ from base import *
 from outcomes import Outcomes
 
 class OutcomeTest(BaseTestCase):
-
-    url_suffix = '/outcomes'
-
-    obj_def = {
+    URL_SUFFIX = '/outcomes'
+    OBJ_DEF = {
         'id': int,
         'category_id': int,
         'created_at': unicode,
@@ -19,18 +17,10 @@ class OutcomeTest(BaseTestCase):
     }
 
     def test_list(self):
-        self.run_list(self.url_suffix)
+        self.run_list()
 
     def test_show(self):
-        u = urlopen(URL + self.url_suffix + '/1')
-        self.assertEqual(u.getcode(), 200)
-        meta = u.info()
-        self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
-        content = [line for line in u][0]
-        outcome = json.loads(content)
-        O = Outcomes()
-        self.assertEqual(outcome, O.getOneBy('1'))
-        self.assertObjectIsCorrect(outcome)
+        self.run_show(1, Outcomes().getOneBy('1'))
 
     def test_add(self):
         params = {
@@ -41,4 +31,4 @@ class OutcomeTest(BaseTestCase):
             'description': 'dunno what'
         }
         params = urllib.urlencode(params)
-        f = urllib.urlopen(URL + self.url_suffix, params)
+        f = urllib.urlopen(URL + self.URL_SUFFIX, params)
