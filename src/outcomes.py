@@ -46,7 +46,6 @@ class Outcomes:
             }
         ]
 
-
     def getOneBy(self, value, field='id'):
         return next((el for el in self.objects if str(el[field]) == value), None)
 

@@ -1,4 +1,5 @@
 import cherrypy
+from users import Users
 from outcomes import Outcomes
 
 class Index(object):
@@ -15,13 +16,13 @@ class Index(object):
 
 def run():
     cherrypy.tree.mount(Index())
-    outcomes = Outcomes()
-    cherrypy.tree.mount(
-        outcomes, '/' + outcomes.resource,
-        {'/':
-            {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}
-        }
-    )
+    for model in [Users(), Outcomes()]:
+        cherrypy.tree.mount(
+            model, '/' + model.resource,
+            {'/':
+                {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}
+            }
+        )
     cherrypy.engine.signals.subscribe()
     cherrypy.engine.start()
     cherrypy.engine.block()

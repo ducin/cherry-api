@@ -16,15 +16,19 @@ class DatabaseHandler(object):
     def __init__(self):
         self.db = MySQLdb.connect(**sql_config)
 
-    def select(self, fields, table):
+    def select(self, fields, table, offset=None, limit=None):
         query = "SELECT " +', '.join(['`' + field + '`' for field in fields])
-        query += "FROM " + table
-        return query
+        query += "\nFROM " + table
+        if offset is not None:
+            query += "\nOFFSET " + str(offset)
+        if limit is not None:
+            query += "\nLIMIT " + str(limit)
+        return query + ";"
 
-    def fetch(self, query, fetcher=None):
+    def fetch(self, query, builder=None):
         cur = self.db.cursor()
         cur.execute(query)
         all = cur.fetchall()
-        return [fetcher(row) for row in all] if fetcher is not None else all
+        return [builder(row) for row in all] if builder is not None else all
 
 db_handler = DatabaseHandler()
