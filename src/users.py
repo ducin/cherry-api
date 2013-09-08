@@ -29,30 +29,13 @@ class Users(Model):
         self.objects = self.db.fetch(query, self.build)
 
     @cherrypy.tools.json_out()
-    def GET(self, id=None):
-        if id == None:
-            return {
-                'meta': {
-                    'limit': None,
-                    'next': None,
-                    'offset': None,
-                    'previous': None,
-                    'total_count': len(self.objects)
-                },
-                'objects' : self.objects
-            }
-        else:
-            return self.getOneBy(id)
-
-#    @cherrypy.tools.json_out()
-#    def POST(self, category_id, created_at, created_by, amount, description):
-#        id = max([el['id'] for el in self.objects]) + 1
-#        self.objects.append({
-#            'id': id,
-#            'category_id': int(category_id),
-#            'created_at': created_at,
-#            'created_by': int(created_by),
-#            'amount': float(amount),
-#            'description': description
-#        })
-#        return id
+    def POST(self, first_name, last_name, username, email_address):
+        id = max([el['id'] for el in self.objects]) + 1
+        self.objects.append({
+            'id': id,
+            'first_name': first_name,
+            'last_name': last_name,
+            'username': username,
+            'email_address': email_address
+        })
+        return id

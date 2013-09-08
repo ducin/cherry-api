@@ -47,22 +47,6 @@ class Outcomes(Model):
         ]
 
     @cherrypy.tools.json_out()
-    def GET(self, id=None):
-        if id == None:
-            return {
-                'meta': {
-                    'limit': None,
-                    'next': None,
-                    'offset': None,
-                    'previous': None,
-                    'total_count': len(self.objects)
-                },
-                'objects' : self.objects
-            }
-        else:
-            return self.getOneBy(id)
-
-    @cherrypy.tools.json_out()
     def POST(self, category_id, created_at, created_by, amount, description):
         id = max([el['id'] for el in self.objects]) + 1
         self.objects.append({

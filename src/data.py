@@ -13,6 +13,7 @@ sql_config = {
 import MySQLdb
 
 class DatabaseHandler(object):
+
     def __init__(self):
         self.db = MySQLdb.connect(**sql_config)
 
@@ -33,6 +34,8 @@ class DatabaseHandler(object):
 
 db_handler = DatabaseHandler()
 
+import cherrypy
+
 class Model(object):
 
     def getOneBy(self, value, field='id'):
@@ -40,3 +43,19 @@ class Model(object):
 
     def fields(self):
         return [p['field'] for p in self.definition]
+
+    @cherrypy.tools.json_out()
+    def GET(self, id=None):
+        if id == None:
+            return {
+                'meta': {
+                    'limit': None,
+                    'next': None,
+                    'offset': None,
+                    'previous': None,
+                    'total_count': len(self.objects)
+                },
+                'objects' : self.objects
+            }
+        else:
+            return self.getOneBy(id)
