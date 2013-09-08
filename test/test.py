@@ -5,7 +5,7 @@ import json
 from base import *
 from outcomes import Outcomes
 
-class ApplicationTest(BaseTest):
+class ApplicationTest(BaseTestCase):
 
     def test_index(self):
         u = urlopen(URL)
@@ -15,6 +15,8 @@ class ApplicationTest(BaseTest):
         self.assertEqual(meta.getheaders('content-type'), [MIME_HTML])
         content = [line for line in u][0]
         self.assertRegexpMatches(content, 'Hello world')
+
+    url_suffix = '/outcomes'
 
     obj_def = {
         'id': int,
@@ -26,18 +28,10 @@ class ApplicationTest(BaseTest):
     }
 
     def test_list(self):
-        u = urlopen(URL + '/outcomes')
-        self.assertEqual(u.getcode(), 200)
-        meta = u.info()
-        self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
-        data = json.loads([line for line in u][0])
-        self.assertIsInstance(data['objects'], list)
-        self.assertIsInstance(data['meta'], dict)
-        for outcome in data['objects']:
-            self.assertObjectIsCorrect(outcome)
+        self.run_list(self.url_suffix)
 
     def test_show(self):
-        u = urlopen(URL + '/outcomes/1')
+        u = urlopen(URL + self.url_suffix + '/1')
         self.assertEqual(u.getcode(), 200)
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
@@ -56,4 +50,4 @@ class ApplicationTest(BaseTest):
             'description': 'dunno what'
         }
         params = urllib.urlencode(params)
-        f = urllib.urlopen(URL + '/outcomes', params)
+        f = urllib.urlopen(URL + self.url_suffix, params)
