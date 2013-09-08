@@ -3,13 +3,17 @@ from outcomes import Outcomes
 
 class Index(object):
     def index(self):
-        return "<p>Hello world from CherryPy API.</p>" + \
-            "<ul>" + \
-            "<li><a href=\"users\">users</a></li>" + \
-            "<li><a href=\"incomes\">incomes</a></li>" + \
-            "<li><a href=\"outcomes\">outcomes</a></li>" + \
-            "<li><a href=\"categories\">categories</a></li>" + \
-            "</ul>"
+        options = [
+            {'label': 'users', 'href': 'users'},
+            {'label': 'incomes', 'href': 'incomes'},
+            {'label': 'outcomes', 'href': 'outcomes'},
+            {'label': 'categories', 'href': 'categories'}
+            ]
+        html = "<p>Hello world from CherryPy API.</p><ul>"
+        for el in options:
+            html += "<li><a href='" + el['href'] + "'>" + el['label'] + "</a></li>"
+        html += "</ul>"
+        return html
     index.exposed = True
 
 def run():
