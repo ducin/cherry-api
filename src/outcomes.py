@@ -35,7 +35,16 @@ class Outcomes:
     @cherrypy.tools.json_out()
     def GET(self, id=None):
         if id == None:
-            return self.outcomes
+            return {
+                'meta': {
+                    'limit': None,
+                    'next': None,
+                    'offset': None,
+                    'previous': None,
+                    'total_count': len(self.outcomes)
+                },
+                'objects' : self.outcomes
+            }
         else:
             return self.getOneBy(id)
 

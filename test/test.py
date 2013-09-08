@@ -9,7 +9,7 @@ MIME_HTML = 'text/html;charset=utf-8'
 MIME_JSON = 'application/json'
 URL = 'http://localhost:8080'
 
-class ExampleTest(unittest.TestCase):
+class ApplicationTest(unittest.TestCase):
 
     def test_index(self):
         u = urlopen(URL)
@@ -18,7 +18,7 @@ class ExampleTest(unittest.TestCase):
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_HTML])
         content = [line for line in u][0]
-        self.assertEqual(content, 'Hello world from CherryPy API.')
+        self.assertRegexpMatches(content, 'Hello world')
 
     def assertOutcomeIsCorrect(self, outcome):
         self.assertTrue(outcome.has_key('id'))
@@ -40,8 +40,9 @@ class ExampleTest(unittest.TestCase):
         meta = u.info()
         self.assertEqual(meta.getheaders('content-type'), [MIME_JSON])
         data = json.loads([line for line in u][0])
-        self.assertTrue(type(data) is list)
-        for outcome in data:
+        self.assertIsInstance(data['objects'], list)
+        self.assertIsInstance(data['meta'], dict)
+        for outcome in data['objects']:
             self.assertOutcomeIsCorrect(outcome)
 
     def test_show(self):
