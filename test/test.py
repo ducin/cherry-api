@@ -16,19 +16,19 @@ class ApplicationTest(BaseTest):
         content = [line for line in u][0]
         self.assertRegexpMatches(content, 'Hello world')
 
+    outcome_definition = [
+        {'field': 'id', 'type': int},
+        {'field': 'category_id', 'type': int},
+        {'field': 'created_at', 'type': unicode},
+        {'field': 'created_by', 'type': int},
+        {'field': 'amount', 'type': float},
+        {'field': 'description', 'type': unicode}
+    ]
+
     def assertOutcomeIsCorrect(self, outcome):
-        self.assertTrue(outcome.has_key('id'))
-        self.assertTrue(type(outcome['id']) is int)
-        self.assertTrue(outcome.has_key('category_id'))
-        self.assertTrue(type(outcome['category_id']) is int)
-        self.assertTrue(outcome.has_key('created_at'))
-        self.assertTrue(type(outcome['created_at']) is unicode)
-        self.assertTrue(outcome.has_key('created_by'))
-        self.assertTrue(type(outcome['created_by']) is int)
-        self.assertTrue(outcome.has_key('amount'))
-        self.assertTrue(type(outcome['amount']) is float)
-        self.assertTrue(outcome.has_key('description'))
-        self.assertTrue(type(outcome['description']) is unicode)
+        for field in self.outcome_definition:
+            self.assertTrue(outcome.has_key(field['field']))
+            self.assertTrue(type(outcome[field['field']]) is field['type'])
 
     def test_list(self):
         u = urlopen(URL + '/outcomes')
