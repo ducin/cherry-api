@@ -1,15 +1,11 @@
 from urllib2 import urlopen
 import urllib
 import json
-import unittest
 
+from base import *
 from outcomes import Outcomes
 
-MIME_HTML = 'text/html;charset=utf-8'
-MIME_JSON = 'application/json'
-URL = 'http://localhost:8080'
-
-class ApplicationTest(unittest.TestCase):
+class ApplicationTest(BaseTest):
 
     def test_index(self):
         u = urlopen(URL)
