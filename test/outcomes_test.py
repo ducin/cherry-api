@@ -18,6 +18,9 @@ class OutcomesTest(BaseTestCase):
     def test_show(self):
         self.run_show(1, Outcomes().getOneBy('1'))
 
+    def test_not_found(self):
+        self.run_not_found(0)
+
     def test_add(self):
         self.run_add({
             'category_id': 2,

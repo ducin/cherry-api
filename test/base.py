@@ -4,6 +4,7 @@ import json
 import unittest
 
 HTTP_OK = 200
+HTTP_NOT_FOUND = 404
 
 MIME_HTML = 'text/html;charset=utf-8'
 MIME_JSON = 'application/json'
@@ -24,10 +25,10 @@ class BaseTestCase(unittest.TestCase):
     def run_list(self):
         u = urlopen(URL + self.URL_SUFFIX)
         self.assertUrlIsCorrect(u, MIME_JSON)
-        data = json.loads([line for line in u][0])
-        self.assertIsInstance(data['objects'], list)
-        self.assertIsInstance(data['meta'], dict)
-        for obj in data['objects']:
+        response = json.loads([line for line in u][0])
+        self.assertIsInstance(response['objects'], list)
+        self.assertIsInstance(response['meta'], dict)
+        for obj in response['objects']:
             self.assertObjectIsCorrect(obj)
 
     def run_show(self, obj_id, obj_compared):
@@ -37,6 +38,14 @@ class BaseTestCase(unittest.TestCase):
         obj = json.loads(content)
         self.assertEqual(obj, obj_compared)
         self.assertObjectIsCorrect(obj)
+
+    # TODO: not found should return 404 HTTP CODE
+    def run_not_found(self, obj_id):
+        u = urlopen(URL + self.URL_SUFFIX + '/' + str(obj_id))
+        self.assertUrlIsCorrect(u, MIME_JSON)
+        content = [line for line in u][0]
+        obj = json.loads(content)
+        self.assertEqual(obj, None)
 
     def run_add(self, params):
         u = urllib.urlopen(URL + self.URL_SUFFIX, urllib.urlencode(params))
