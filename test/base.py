@@ -13,9 +13,9 @@ URL = 'http://localhost:8080'
 class BaseTestCase(unittest.TestCase):
 
     def assertObjectIsCorrect(self, obj):
-        for field in self.OBJ_DEF:
+        for field in self.model.definition:
             self.assertTrue(obj.has_key(field))
-            self.assertTrue(type(obj[field]) is self.OBJ_DEF[field])
+            self.assertTrue(type(obj[field]) is self.model.definition[field])
 
     def assertUrlIsCorrect(self, url_obj, mime):
         self.assertEqual(url_obj.getcode(), HTTP_OK)
@@ -23,7 +23,7 @@ class BaseTestCase(unittest.TestCase):
         self.assertTrue(mime in meta.getheaders('content-type'))
 
     def run_list(self):
-        u = urlopen(URL + self.URL_SUFFIX)
+        u = urlopen(URL + '/' + self.model.resource)
         self.assertUrlIsCorrect(u, MIME_JSON)
         response = json.loads([line for line in u][0])
         self.assertIsInstance(response['objects'], list)
@@ -32,7 +32,7 @@ class BaseTestCase(unittest.TestCase):
             self.assertObjectIsCorrect(obj)
 
     def run_show(self, obj_id, obj_compared):
-        u = urlopen(URL + self.URL_SUFFIX + '/' + str(obj_id))
+        u = urlopen(URL + '/' + self.model.resource + '/' + str(obj_id))
         self.assertUrlIsCorrect(u, MIME_JSON)
         content = [line for line in u][0]
         obj = json.loads(content)
@@ -41,11 +41,11 @@ class BaseTestCase(unittest.TestCase):
 
     # TODO: not found should return 404 HTTP CODE
     def run_not_found(self, obj_id):
-        u = urlopen(URL + self.URL_SUFFIX + '/' + str(obj_id))
+        u = urlopen(URL + '/' + self.model.resource + '/' + str(obj_id))
         self.assertUrlIsCorrect(u, MIME_JSON)
         content = [line for line in u][0]
         obj = json.loads(content)
         self.assertEqual(obj, None)
 
     def run_add(self, params):
-        u = urllib.urlopen(URL + self.URL_SUFFIX, urllib.urlencode(params))
+        u = urllib.urlopen(URL + '/' + self.model.resource, urllib.urlencode(params))

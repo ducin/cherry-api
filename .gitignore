@@ -1,3 +1,6 @@
+# project files
+src/config/config.ini
+
 *.py[cod]
 
 # C extensions

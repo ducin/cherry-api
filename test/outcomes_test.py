@@ -2,21 +2,15 @@ from base import *
 from outcomes import Outcomes
 
 class OutcomesTest(BaseTestCase):
-    URL_SUFFIX = '/outcomes'
-    OBJ_DEF = {
-        'id': int,
-        'category_id': int,
-        'created_at': unicode,
-        'created_by': int,
-        'amount': float,
-        'description': unicode
-    }
+    model = Outcomes()
+    url_suffix = model.resource
+    definition = model.definition
 
     def test_list(self):
         self.run_list()
 
     def test_show(self):
-        self.run_show(1, Outcomes().getOneBy('1'))
+        self.run_show(1, self.model.getOneBy('1'))
 
     def test_not_found(self):
         self.run_not_found(0)

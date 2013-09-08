@@ -15,8 +15,9 @@ class Index(object):
 
 def run():
     cherrypy.tree.mount(Index())
+    outcomes = Outcomes()
     cherrypy.tree.mount(
-        Outcomes(), '/outcomes',
+        outcomes, '/' + outcomes.resource,
         {'/':
             {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}
         }
