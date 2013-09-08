@@ -6,18 +6,18 @@ class Outcomes(Model):
     exposed = True
     resource = 'outcomes'
     table = 'outcome'
-    definition = {
-        'id': int,
-        'category_id': int,
-        'created_at': unicode,
-        'created_by': int,
-        'amount': float,
-        'description': unicode
-    }
+    definition = [
+        {'field': 'id', 'ptype': int, 'dbtype': 'bigint(20)'},
+        {'field': 'category_id', 'ptype': int, 'dbtype': 'bigint(20)'},
+        {'field': 'amount', 'ptype': float, 'dbtype': 'decimal(10,2)'},
+        {'field': 'description', 'ptype': unicode, 'dbtype': 'text'},
+        {'field': 'created_at', 'ptype': unicode, 'dbtype': 'datetime'},
+        {'field': 'created_by', 'ptype': int, 'dbtype': 'bigint(20)'},
+    ]
 
     def __init__(self):
         self.db = db_handler
-        query = db_handler.select(fields=self.definition.keys(), table=self.table)
+        query = self.db.select(fields=self.fields(), table=self.table)
         # print self.db.fetch(query)
         self.objects = [
             {

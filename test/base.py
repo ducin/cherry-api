@@ -13,9 +13,11 @@ URL = 'http://localhost:8080'
 class BaseTestCase(unittest.TestCase):
 
     def assertObjectIsCorrect(self, obj):
-        for field in self.model.definition:
+        for p in self.model.definition:
+            field = p['field']
+            ptype = p['ptype']
             self.assertTrue(obj.has_key(field), 'Field ' + field + ' should exist')
-            self.assertTrue(type(obj[field]) is self.model.definition[field], 'Field ' + field + ' should be of type ' + str(self.model.definition[field]) + ', ' + str(type(obj[field])) + ' given')
+            self.assertTrue(type(obj[field]) is ptype, 'Field ' + field + ' should be of type ' + str(ptype) + ', ' + str(type(obj[field])) + ' given')
 
     def assertUrlIsCorrect(self, url_obj, mime):
         self.assertEqual(url_obj.getcode(), HTTP_OK)
