@@ -16,7 +16,7 @@ class ApplicationTest(BaseTest):
         content = [line for line in u][0]
         self.assertRegexpMatches(content, 'Hello world')
 
-    outcome_definition = {
+    obj_def = {
         'id': int,
         'category_id': int,
         'created_at': unicode,
@@ -24,11 +24,6 @@ class ApplicationTest(BaseTest):
         'amount': float,
         'description': unicode
     }
-
-    def assertOutcomeIsCorrect(self, outcome):
-        for field in self.outcome_definition:
-            self.assertTrue(outcome.has_key(field))
-            self.assertTrue(type(outcome[field]) is self.outcome_definition[field])
 
     def test_list(self):
         u = urlopen(URL + '/outcomes')
@@ -39,7 +34,7 @@ class ApplicationTest(BaseTest):
         self.assertIsInstance(data['objects'], list)
         self.assertIsInstance(data['meta'], dict)
         for outcome in data['objects']:
-            self.assertOutcomeIsCorrect(outcome)
+            self.assertObjectIsCorrect(outcome)
 
     def test_show(self):
         u = urlopen(URL + '/outcomes/1')
@@ -50,7 +45,7 @@ class ApplicationTest(BaseTest):
         outcome = json.loads(content)
         O = Outcomes()
         self.assertEqual(outcome, O.getOneBy('1'))
-        self.assertOutcomeIsCorrect(outcome)
+        self.assertObjectIsCorrect(outcome)
 
     def test_add(self):
         params = {
