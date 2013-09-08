@@ -16,19 +16,19 @@ class ApplicationTest(BaseTest):
         content = [line for line in u][0]
         self.assertRegexpMatches(content, 'Hello world')
 
-    outcome_definition = [
-        {'field': 'id', 'type': int},
-        {'field': 'category_id', 'type': int},
-        {'field': 'created_at', 'type': unicode},
-        {'field': 'created_by', 'type': int},
-        {'field': 'amount', 'type': float},
-        {'field': 'description', 'type': unicode}
-    ]
+    outcome_definition = {
+        'id': int,
+        'category_id': int,
+        'created_at': unicode,
+        'created_by': int,
+        'amount': float,
+        'description': unicode
+    }
 
     def assertOutcomeIsCorrect(self, outcome):
         for field in self.outcome_definition:
-            self.assertTrue(outcome.has_key(field['field']))
-            self.assertTrue(type(outcome[field['field']]) is field['type'])
+            self.assertTrue(outcome.has_key(field))
+            self.assertTrue(type(outcome[field]) is self.outcome_definition[field])
 
     def test_list(self):
         u = urlopen(URL + '/outcomes')
