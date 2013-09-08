@@ -32,3 +32,8 @@ class DatabaseHandler(object):
         return [builder(row) for row in all] if builder is not None else all
 
 db_handler = DatabaseHandler()
+
+class Model(object):
+
+    def getOneBy(self, value, field='id'):
+        return next((el for el in self.objects if str(el[field]) == value), None)

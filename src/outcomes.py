@@ -1,8 +1,8 @@
 import cherrypy
 
-from data import db_handler
+from data import db_handler, Model
 
-class Outcomes:
+class Outcomes(Model):
     exposed = True
     resource = 'outcomes'
     table = 'outcome'
@@ -18,7 +18,7 @@ class Outcomes:
     def __init__(self):
         self.db = db_handler
         query = db_handler.select(fields=self.definition.keys(), table=self.table)
-        print self.db.fetch(query)
+        # print self.db.fetch(query)
         self.objects = [
             {
                 'id': 1,
@@ -45,9 +45,6 @@ class Outcomes:
                 'description': 'holiday souvenir'
             }
         ]
-
-    def getOneBy(self, value, field='id'):
-        return next((el for el in self.objects if str(el[field]) == value), None)
 
     @cherrypy.tools.json_out()
     def GET(self, id=None):
