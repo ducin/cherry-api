@@ -38,6 +38,7 @@ class BaseTestCase(unittest.TestCase):
         self.assertUrlIsCorrect(u, MIME_JSON)
         content = [line for line in u][0]
         obj = json.loads(content)
+        print obj, obj_compared
         self.assertEqual(obj, obj_compared)
         self.assertObjectIsCorrect(obj)
 
