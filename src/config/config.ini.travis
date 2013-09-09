@@ -2,4 +2,3 @@
 host = localhost
 database = duck_database
 username = travis
-password = ''
