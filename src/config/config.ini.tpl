@@ -1,5 +1,5 @@
 [mysql]
 host = SOME_HOST
-database = SOME_DB
-username = SOME_USER
-password = SOME_PSWD
+db = SOME_DB
+user = SOME_USER
+passwd = SOME_PSWD

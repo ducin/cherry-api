@@ -1,4 +1,4 @@
 [mysql]
 host = localhost
-database = duck_database
-username = travis
+db = duck_database
+user = travis
