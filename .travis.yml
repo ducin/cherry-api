@@ -5,6 +5,11 @@ python:
 # python3 version is tested on `python3` branch
 install:
   - pip install -r requirements.txt --use-mirrors
-before_script: ./run.sh &
+before_script:
+  - ./run.sh &
+  - ./install.sh
+  - mysql -e "CREATE DATABASE duck_database;"
+  - mysql duck_database < src/commons/sql/schema.sql
+  - cp src/config/config.ini.travis src/config/config.ini
 after_script: pkill -9 -f "run.sh"
 script: ./test.sh
