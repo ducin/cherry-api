@@ -3,8 +3,6 @@ from outcomes import Outcomes
 
 class OutcomesTest(BaseTestCase):
     model = Outcomes()
-    url_suffix = model.resource
-    definition = model.definition
 
     def test_list(self):
         self.run_list()
@@ -21,5 +19,5 @@ class OutcomesTest(BaseTestCase):
             'amount': 2.0,
             'created_by': 2,
             'created_at': '2013-09-02 00:00:00',
-            'description': 'dunno what'
+            'description': 'something cheap'
         })

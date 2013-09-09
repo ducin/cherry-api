@@ -3,8 +3,6 @@ from users import Users
 
 class UsersTest(BaseTestCase):
     model = Users()
-    url_suffix = model.resource
-    definition = model.definition
 
     def test_list(self):
         self.run_list()
