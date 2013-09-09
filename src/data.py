@@ -3,12 +3,7 @@ import os, ConfigParser
 c = ConfigParser.ConfigParser()
 c.read(os.path.abspath('./src/config/config.ini'))
 
-sql_config = {
-    'host': c.get('mysql','host'),
-    'user': c.get('mysql','username'),
-    'passwd': c.get('mysql','password'),
-    'db': c.get('mysql','database')
-}
+sql_config = dict(c.items('mysql'))
 
 import MySQLdb
 
