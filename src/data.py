@@ -1,16 +1,12 @@
-import os, ConfigParser
-
-c = ConfigParser.ConfigParser()
-c.read(os.path.abspath('./src/config/config.ini'))
-
-sql_config = dict(c.items('mysql'))
-
 import MySQLdb
+import cherrypy
+
+from config import sql_connection
 
 class DatabaseHandler(object):
 
-    def __init__(self):
-        self.db = MySQLdb.connect(**sql_config)
+    def __init__(self, sql_conn):
+        self.db = MySQLdb.connect(**sql_conn)
 
     def select(self, fields, table, offset=None, limit=None):
         query = "SELECT " +', '.join(['`' + field + '`' for field in fields])
@@ -27,10 +23,6 @@ class DatabaseHandler(object):
         all = cur.fetchall()
         return [builder(row) for row in all] if builder is not None else all
 
-db_handler = DatabaseHandler()
-
-import cherrypy
-
 class Model(object):
 
     def getOneBy(self, value, field='id'):
@@ -40,8 +32,8 @@ class Model(object):
         return [p['field'] for p in self.definition]
 
     @cherrypy.tools.json_out()
-    def GET(self, id=None):
-        if id == None:
+    def GET(self, _id=None):
+        if _id == None:
             return {
                 'meta': {
                     'limit': None,
@@ -53,4 +45,6 @@ class Model(object):
                 'objects' : self.objects
             }
         else:
-            return self.getOneBy(id)
+            return self.getOneBy(_id)
+
+db_handler = DatabaseHandler(sql_connection)
