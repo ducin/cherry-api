@@ -10,6 +10,7 @@ before_script:
   - ./run.sh &
   - mysql -e "CREATE DATABASE duck_database;"
   - mysql duck_database < src/commons/sql/schema.sql
+  - mysql duck_database < src/commons/sql/fixtures.sql
   - cp src/config/config.ini.travis src/config/config.ini
 script: ./test.sh
 after_script: pkill -9 -f "run.sh"
