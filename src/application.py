@@ -4,6 +4,7 @@ from config import connection, service
 from resource import Resource
 from model.user import Users
 from model.category import Categories
+from model.income import Incomes
 from model.outcome import Outcomes
 
 class Index(object):
@@ -21,6 +22,7 @@ class Index(object):
 resources = [
     (Resource(Users(connection)), '/users'),
     (Resource(Categories(connection)), '/categories'),
+    (Resource(Incomes(connection)), '/incomes'),
     (Resource(Outcomes(connection)), '/outcomes')
 ]
 

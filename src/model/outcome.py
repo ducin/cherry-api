@@ -11,30 +11,12 @@ class Outcomes(Model):
         {'field': 'created_by', 'required': True, 'ptype': int, 'dbtype': 'bigint(20)'},
     ]
 
-    def fetch_all(self):
-        return [
-            {
-                'id': 1,
-                'category_id': 5,
-                'created_at': "2011-09-01 00:00:00",
-                'created_by': 2,
-                'amount': 121.46,
-                'description': 'mattress'
-            },
-            {
-                'id': 2,
-                'category_id': 5,
-                'created_at': "2011-09-02 00:00:00",
-                'created_by': 1,
-                'amount': 493.68,
-                'description': 'foreign currency'
-            },
-            {
-                'id': 3,
-                'category_id': 20,
-                'created_at': "2013-07-21 00:00:00",
-                'created_by': 2,
-                'amount': 9.0,
-                'description': 'holiday souvenir'
-            }
-        ]
+    def build(self, row):
+        return {
+            'id': row[0],
+            'category_id': row[1],
+            'amount': str(row[2]),
+            'description': row[3],
+            'created_at': str(row[4]),
+            'created_by': row[5]
+        }
