@@ -43,13 +43,17 @@ class Model(object):
 
     def fetch_all(self):
         query = self.db.select(table=self.table, fields=self.fields())
-        return self.db.fetch(query, self.build)
+        return self.db.fetch(query, self.builder())
 
     def required_fields(self):
         return [p['field'] for p in self.definition if p['required']]
 
     def fields(self):
         return [p['field'] for p in self.definition]
+
+    def builder(self):
+        field_types = [(p['field'], p['ptype']) for p in self.definition]
+        return lambda row: {tup[0]: tup[1](row[ind]) for ind, tup in enumerate(field_types)}
 
     def get_one_by(self, value, field='id'):
         return next((el for el in self.fetch_all() if str(el[field]) == value), None)

@@ -10,13 +10,3 @@ class Outcomes(Model):
         {'field': 'created_at', 'required': True, 'ptype': unicode, 'dbtype': 'datetime'},
         {'field': 'created_by', 'required': True, 'ptype': int, 'dbtype': 'bigint(20)'},
     ]
-
-    def build(self, row):
-        return {
-            'id': row[0],
-            'category_id': row[1],
-            'amount': str(row[2]),
-            'description': row[3],
-            'created_at': str(row[4]),
-            'created_by': row[5]
-        }
