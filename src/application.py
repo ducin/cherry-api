@@ -1,6 +1,10 @@
 import cherrypy
-from users import Users
-from outcomes import Outcomes
+
+from config import connection, service
+from resource import Resource
+from model.user import Users
+from model.category import Categories
+from model.outcome import Outcomes
 
 class Index(object):
     def index(self):
@@ -14,15 +18,23 @@ class Index(object):
             "<ul>" + ''.join(["<li><a href='" + el['href'] + "'>" + el['label'] + "</a></li>" for el in options]) + "</ul>"
     index.exposed = True
 
+resources = [
+    (Resource(Users(connection)), '/users'),
+    (Resource(Categories(connection)), '/categories'),
+    (Resource(Outcomes(connection)), '/outcomes')
+]
+
 def run():
     cherrypy.tree.mount(Index())
-    for model in [Users(), Outcomes()]:
+    for resource, url_root in resources:
         cherrypy.tree.mount(
-            model, '/' + model.resource,
+            resource, url_root,
             {'/':
                 {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}
             }
         )
+    cherrypy.server.socket_host = service['host']
+    cherrypy.server.socket_port = int(service['port'])
     cherrypy.engine.signals.subscribe()
     cherrypy.engine.start()
     cherrypy.engine.block()

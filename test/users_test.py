@@ -1,14 +1,16 @@
 from base import *
-from users import Users
+from config import connection
+from model.user import Users
 
-class UsersTest(BaseTestCase):
-    model = Users()
+class UsersTest(BaseModelTestCase):
+    model = Users(connection)
+    url = 'users'
 
     def test_list(self):
         self.run_list()
 
     def test_show(self):
-        self.run_show(1, self.model.getOneBy('1'))
+        self.run_show(1, self.model.get_one_by('1'))
 
     def test_not_found(self):
         self.run_not_found(0)
