@@ -3,13 +3,13 @@ python:
   - "2.7"
 # python3 version is tested on `python3` branch
 install:
-  - pip install -r requirements.txt --use-mirrors
+  - pip install -r requirements.txt
 before_script:
-  - ./install.sh
-  - ./run.sh &
+  - cp src/config/config.ini.travis src/config/config.ini
   - mysql -e "CREATE DATABASE duck_database;"
   - mysql duck_database < src/commons/sql/schema.sql
   - mysql duck_database < src/commons/sql/fixtures.sql
-  - cp src/config/config.ini.travis src/config/config.ini
+  - ./install.sh
+  - ./run.sh &
 script: ./test.sh
 after_script: pkill -9 -f "run.sh"
