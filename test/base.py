@@ -34,7 +34,7 @@ class BaseModelTestCase(BaseTestCase):
         for p in self.model.definition:
             field = p['field']
             ptype = p['ptype']
-            self.assertTrue(obj.has_key(field), 'Field ' + field + ' should exist')
+            self.assertTrue(field in obj, 'Field ' + field + ' should exist')
             self.assertTrue(type(obj[field]) is ptype, 'Field ' + field + ' should be of type ' + str(ptype) + ', ' + str(type(obj[field])) + ' given')
 
     def run_list(self):
