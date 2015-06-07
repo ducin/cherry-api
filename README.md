@@ -14,5 +14,5 @@ Continuous Integration
 
 is made with travis for both python 2.x and 3.x versions:
 
-[![Build Status](https://travis-ci.org/tkoomzaaskz/cherry-api.png?branch=master)](https://travis-ci.org/tkoomzaaskz/cherry-api)
-[![Build Status](https://travis-ci.org/tkoomzaaskz/cherry-api.png?branch=python3)](https://travis-ci.org/tkoomzaaskz/cherry-api)
+[![Build Status](https://travis-ci.org/ducin/cherry-api.png?branch=master)](https://travis-ci.org/ducin/cherry-api)
+[![Build Status](https://travis-ci.org/ducin/cherry-api.png?branch=python3)](https://travis-ci.org/ducin/cherry-api)
